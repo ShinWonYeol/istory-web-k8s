@@ -4,4 +4,4 @@ RUN addgroup -S istory && adduser -S istory -G istory
 USER istory
 WORKDIR /home/istory
 COPY *.jar /home/istory/istory.jar
-ENTRYPOINT ["java","-jar","/home/istory/istory.jar"]devops-cicd-apps/istory-web-k8s/xinfra/istory-platform/base/istory-app
+ENTRYPOINT ["java","-jar","/home/istory/istory.jar"]
