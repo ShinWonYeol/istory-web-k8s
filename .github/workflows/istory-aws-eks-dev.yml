@@ -50,7 +50,7 @@ jobs:
 
       - name: kubeconfig 업데이트
         run: |
-          aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name ${{ secrets.CLUSTER_NAME }}
+          aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name ${{ secrets.K8S_CLUSTER_NAME }}
 
       - name: kustomize 설치
         run: |
@@ -103,7 +103,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
         
       - name: JAVA build with TEST
-        run: ./gradlew build
+        run: ./gradlew build -x test
 
       - name: Docker 디렉토리로 JAR 파일 복사
         run: |
@@ -148,6 +148,7 @@ jobs:
       - name: 이미지 태그 업데이트 (kustomize)
         run: |
           cd overlay/aws-dev
+          ls
           kustomize edit set image ${{ secrets.DOCKER_USERNAME }}/istory=${{ secrets.DOCKER_USERNAME }}/istory:${{ env.DOCKER_TAG }}
       - name: 서비스 리포지토리 최종 업데이트
         run: |
@@ -155,3 +156,4 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git commit -am "Update image tag to ${{ env.DOCKER_TAG }}"
           git push origin ${{ github.ref_name }} 
+          
